@@ -1,0 +1,5 @@
+使用的web-sys库要在Cargo.toml中引用
+注意要引用jscast否则不能做jsvalue到jsfunction的转换
+
+编译:
+	wasm-pack build --target bundler
