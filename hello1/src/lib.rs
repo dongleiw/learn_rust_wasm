@@ -43,7 +43,7 @@ fn create_btn_and_add_click_event(){
 		let btn_cloned = btn.clone();
 		let mut click_count = 0;
 		let eh_onclick = Closure::wrap(Box::new(move||{
-			log_in_html( &format!("btn clicked: {}", click_count) );
+			log_in_html( &format!("btn[created_in_rust_wasm] clicked: {}", click_count) );
 
 			click_count += 1;
 			let new_text_content = format!("created_in_rust_wasm: {}", click_count);
@@ -57,9 +57,15 @@ fn create_btn_and_add_click_event(){
 		eh_onclick.forget();
 	}
 
-	body.append_child(&btn).unwrap();
+	let first_child = body.first_child();
+	if first_child.is_some(){
+		body.insert_before(&btn, Some(&first_child.unwrap())).unwrap();
+	}else{
+		body.append_child(&btn).unwrap();
+	}
 
-	console::log_1(&"create btn. register onclick event handler".into());
+
+	log_in_html(&"create btn. register onclick event handler".into());
 }
 
 fn find_btn_and_add_click_event(){
@@ -70,7 +76,7 @@ fn find_btn_and_add_click_event(){
 		let mut click_count = 0;
 		let handler = Closure::wrap(Box::new(move ||{
 			click_count += 1;
-			log_in_html(&format!("btn clicked: {}", click_count));
+			log_in_html(&format!("btn[handle_event_in_rust_wasm] clicked: {}", click_count));
 		}) as Box<dyn FnMut()>);
 
 		// callback.as_ref() 获得JsValue
