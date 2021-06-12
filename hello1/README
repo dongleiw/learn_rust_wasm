@@ -3,3 +3,10 @@
 
 编译:
 	wasm-pack build --target bundler
+
+使用到的wasm相关功能:
+	- document.getElementById
+	- create element
+	- append element to dom
+	- add event listener to element
+	- export rust struct (and methods) to js

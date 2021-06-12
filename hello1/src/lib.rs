@@ -1,11 +1,13 @@
 extern crate wasm_bindgen;
+use wasm_bindgen::prelude::*;
 
 use std::rc::Rc;
 
-use wasm_bindgen::prelude::*;
 use crate::wasm_bindgen::JsCast;
 use web_sys::console;
 use web_sys::MouseEvent;
+
+mod person;
 
 #[wasm_bindgen]
 extern {
@@ -57,13 +59,8 @@ fn create_btn_and_add_click_event(){
 		eh_onclick.forget();
 	}
 
-	let first_child = body.first_child();
-	if first_child.is_some(){
-		body.insert_before(&btn, Some(&first_child.unwrap())).unwrap();
-	}else{
-		body.append_child(&btn).unwrap();
-	}
-
+	let div = document.get_element_by_id("2").expect("div[2] not found");
+	div.append_child(&btn).unwrap();
 
 	log_in_html(&"create btn. register onclick event handler".into());
 }
@@ -86,6 +83,42 @@ fn find_btn_and_add_click_event(){
 		log_in_html(& String::from("btn[handle_event_in_rust_wasm] not found") );
 	}
 }
+
+#[wasm_bindgen]
+pub fn create_element_and_append(container_id :String){
+	let document = web_sys::window().expect("window not exist").document().expect("document not exist");
+	
+	let container = document.get_element_by_id(container_id.as_ref());
+	if container.is_some(){
+		let p = document.create_element("p").expect("failed to create p element");
+		p.set_text_content( Some("this element is created in rust-wasm" ) );
+		container.unwrap().append_child(&p);
+	}else{
+		console::log_1( &format!("container[{}]", container_id).into() );
+	}
+}
+#[wasm_bindgen]
+pub fn delete_element_in_container(container_id :String){
+	let document = web_sys::window().expect("window not exist").document().expect("document not exist");
+	
+	let container = document.get_element_by_id(container_id.as_ref());
+	if container.is_none(){
+		console::log_1( &format!("container[{}] not found", container_id).into() );
+		return;
+	}
+	let container = container.unwrap();
+	let children = container.children();
+	let mut idx = 0;
+	while idx< children.length(){
+		let child = children.item(idx).unwrap();
+		if child.node_name()=="P"{
+			container.remove_child(&child);
+			break;
+		}
+		idx += 1;
+	}
+}
+
 
 #[wasm_bindgen]
 pub fn init_wasm(){

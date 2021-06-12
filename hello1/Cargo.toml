@@ -24,4 +24,5 @@ features=[
 	"EventTarget",
 	"Node",
 	"HtmlElement",
+	"HtmlCollection",
 ]

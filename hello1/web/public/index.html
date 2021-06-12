@@ -4,8 +4,19 @@
                 <script src="./bundle.js"> </script>
         </head>
         <body>
-				<button id="handle_event_in_rust_wasm">handle_event_in_rust_wasm</button>
-				<pre id="log"></pre>
+				<p>call struct methods in rust</p>
+				<div id="1" style="border-width: 1px; border-color: black; border-style: solid; padding: 10px;">
+					<label>name <input id="input_person_name"></button></label>
+					<label>age <input id="input_person_age"></button></label>
+					<button id="get_person_info">get_person_info</button>
+					<button id="set_person_info">set_person_info</button>
+				</div>
+
+				<p>create/find/delete element in rust</p>
+				<div id="2" style="border-width: 1px; border-color: black; border-style: solid; padding: 10px;">
+					<button id="create_element_in_rust">create_element_in_rust</button>
+					<button id="delete_element_in_rust">delete_element_in_rust</button>
+				</div>
         </body>
 </html>
 
